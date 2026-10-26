@@ -9,6 +9,10 @@ jobs:
         with:
           distribution: temurin
           java-version: "17"
+      - uses: actions/cache@v4
+        with:
+          path: ~/.android/debug.keystore
+          key: debug-keystore-v1
       - run: ./gradlew --no-daemon assembleRelease
         working-directory: launcher
       - uses: actions/upload-artifact@v4
