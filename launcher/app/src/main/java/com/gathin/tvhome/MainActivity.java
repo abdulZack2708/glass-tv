@@ -296,6 +296,8 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
         if (!cfg.showNetworkPill) btnWifi.setVisibility(View.GONE);
         shamsiDate = findViewById(R.id.shamsiDate);
         PrayerLine.install(this);
+        WeatherLine.install(this);
+        FocusSound.init(this);
         shamsi = cfg.shamsiDate;
         if (shamsi) {
             shamsiDate.setVisibility(View.VISIBLE);
@@ -813,6 +815,7 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
     @Override
     public void onTileFocused(int position, View card) {
         lastFocused = position;
+        if (!resuming) FocusSound.tick();
         lastFocusedKey = adapter.keyAt(position);
         // Tile rect in root coordinates, using layout positions (ignores the scale animation).
         Rect r = tileRect;
@@ -976,6 +979,7 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
     /** Sends the focus shape onto a pill: from a tile it glides up and narrows into the pill. */
     private void moveTopHighlight(View pill) {
         if (resuming) return;
+        FocusSound.tick();
         pill.getLocationInWindow(pillAt);
         glider.getLocationInWindow(rootAt);
         float l = pillAt[0] - rootAt[0], t = pillAt[1] - rootAt[1];
