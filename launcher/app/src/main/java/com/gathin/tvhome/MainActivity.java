@@ -258,7 +258,10 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
         long bootAt = System.currentTimeMillis() - android.os.SystemClock.elapsedRealtime();
         android.content.SharedPreferences launch = getSharedPreferences("launch", MODE_PRIVATE);
         if (Math.abs(launch.getLong("boot_at", 0) - bootAt) < 60_000) tilesAnimatedOnce = true;
-        else launch.edit().putLong("boot_at", bootAt).apply();
+        else {
+            launch.edit().putLong("boot_at", bootAt).apply();
+            StartupVoice.say(this, "TV is ready to play");
+        }
         root.setBackgroundColor(cfg.backgroundColor);
         config = cfg;
         wallpapers = cfg.wallpapers;
